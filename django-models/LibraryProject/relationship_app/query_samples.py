@@ -6,8 +6,8 @@ from models import Book, Library
 books_by_Richard = Book.objects.filter(author="Richard")
 
 # List all books in a library.
-library = Library.objects.get(name="library_name")
-library_books = library.books.all()
+library_name = "Central Library"
+library_books = Library.objects.get(name=library_name).books.all()
 
 #Retrieve the librarian for a library
-librarian = Library.objects.filter(name="ibrary_name").first().librarian
+librarian = Library.objects.filter(name=library_name).first().librarian
