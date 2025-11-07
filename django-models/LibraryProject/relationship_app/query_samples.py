@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-from models import Book, Library
+from models import Book, Library, Author
 
 # Query all books by a specific author
-books_by_Richard = Book.objects.filter(author="Richard")
+author_name = "J.K. Rowling"
+books_by_Richard = Author.objects.get(name=author_name).books.all()
 
 # List all books in a library.
 library_name = "Central Library"
