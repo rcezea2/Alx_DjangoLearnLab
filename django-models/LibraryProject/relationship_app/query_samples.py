@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from models import Book, Library, Author
+from models import Book, Library, Author, Librarian
 
 # Query all books by a specific author
 author_name = "J.K. Rowling"
@@ -12,4 +12,5 @@ library_name = "Central Library"
 library_books = Library.objects.get(name=library_name).books.all()
 
 #Retrieve the librarian for a library
-librarian = Library.objects.get(name=library_name).librarian
+librarian_name = "Alice Johnson"
+librarian = Librarian.objects.get(library=librarian_name).library
