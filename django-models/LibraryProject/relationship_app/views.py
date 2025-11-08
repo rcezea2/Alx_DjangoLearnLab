@@ -42,3 +42,6 @@ class RegisterView(CreateView):
 @login_required()
 def home(request):
     return render(request, "relationship_app/home.html")
+
+def register(request):
+    pass
