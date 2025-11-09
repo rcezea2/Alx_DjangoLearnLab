@@ -1,9 +1,9 @@
 from django.http import HttpResponseForbidden
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth import login, logout
 
 from django.views.generic.detail import DetailView
@@ -66,3 +66,27 @@ def member_view(request):
     if request.user.profile.role != "member":
         return HttpResponseForbidden("Access denied.")
     return render(request, "relationship_app/member_view.html")
+
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    # You can simply show a message since admin handles actual adding
+    return render(request, "relationship_app/permission_info.html", {
+        "action": "add",
+    })
+
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, "relationship_app/permission_info.html", {
+        "action": "edit",
+        "book": book,
+    })
+
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    return render(request, "relationship_app/permission_info.html", {
+        "action": "delete",
+        "book": book,
+    })
