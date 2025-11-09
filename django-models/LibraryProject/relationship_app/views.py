@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, logout
 
 from django.views.generic.detail import DetailView
@@ -47,6 +47,11 @@ def home(request):
 def register(request):
     pass
 
+def is_admin(user):
+    return user.profile.role == "admin"
+
+@login_required
+@user_passes_test(is_admin)
 def admin_view(request):
     if request.user.profile.role != "admin":
         return HttpResponseForbidden("Access denied.")
