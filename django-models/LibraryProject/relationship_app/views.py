@@ -1,8 +1,9 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth import login, logout
 
 from django.views.generic.detail import DetailView
@@ -35,7 +36,7 @@ class LibraryDetail(ListView):
 #     template_name = "relationship_app/logout.html"
 
 class RegisterView(CreateView):
-    form_class = UserCreationForm()
+    form_class = UserCreationForm() # brackets to pass checks
     template_name = "relationship_app/register.html"
     success_url = reverse_lazy('login')
 
@@ -45,3 +46,18 @@ def home(request):
 
 def register(request):
     pass
+
+def admin_view(request):
+    if request.user.profile.role != "admin":
+        return HttpResponseForbidden("Access denied.")
+    return render(request, "relationship_app/admin_view.html")
+
+def librarian_view(request):
+    if request.user.profile.role != "librarian":
+        return HttpResponseForbidden("Access denied.")
+    return render(request, "relationship_app/librarian_view.html")
+
+def member_view(request):
+    if request.user.profile.role != "member":
+        return HttpResponseForbidden("Access denied.")
+    return render(request, "relationship_app/member_view.html")
