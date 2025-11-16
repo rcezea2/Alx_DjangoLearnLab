@@ -37,6 +37,9 @@ ALLOWED_HOSTS = ['yourdomain.com', 'sub.yourdomain.com']
 SECURE_HSTS_SECONDS = 31536000  # Enforce HSTS for 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 
 # Application definition
 
