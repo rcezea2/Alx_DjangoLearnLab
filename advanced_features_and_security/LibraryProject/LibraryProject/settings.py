@@ -23,9 +23,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u91wdan7btbz_qc38s$!@#@a)n_$&n_-shs_i4@y+tuys&#)9a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'  # Prevents the site from being embedded in an iframe
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevents browsers from guessing content types
+
+CSRF_COOKIE_SECURE = True  # CSRF token will be sent only over HTTPS
+SESSION_COOKIE_SECURE = True  # Session cookies will be sent only over HTTPS
+
+ALLOWED_HOSTS = ['yourdomain.com', 'sub.yourdomain.com']
+
+SECURE_HSTS_SECONDS = 31536000  # Enforce HSTS for 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
 
 
 # Application definition
@@ -49,7 +59,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware'
 ]
+
+# settings.py
+CSP_DEFAULT_SRC = ("'self'",)  # Restrict resources to same origin (self)
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'",)
+CSP_IMG_SRC = ("'self'", "data:", "https://trusted-source.com")
+
 
 ROOT_URLCONF = 'LibraryProject.urls'
 

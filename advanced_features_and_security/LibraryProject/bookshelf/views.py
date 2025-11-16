@@ -52,3 +52,10 @@ def book_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
     return redirect('book_list')
+
+
+def book_search(request):
+    query = request.GET.get('q', '')  # Get search term from query params
+    books = Book.objects.filter(title__icontains=query)  # Use ORM to safely filter books
+
+    return render(request, 'bookshelf/book_list.html', {'books': books})
