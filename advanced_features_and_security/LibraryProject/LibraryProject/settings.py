@@ -68,6 +68,9 @@ CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'",)
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'",)
 CSP_IMG_SRC = ("'self'", "data:", "https://trusted-source.com")
 
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_PRELOAD = True
+
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
